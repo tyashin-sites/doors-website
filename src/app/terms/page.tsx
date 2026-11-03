@@ -1,21 +1,33 @@
 import { pageMetadata } from '@/lib/seo';
-import { siteConfig } from '@/config/site';
+import { Breadcrumbs, JsonLd, Prose } from '@/components/kit';
+import type { ProseProps } from '@/components/kit';
+import { organizationLd, websiteLd, breadcrumbLd } from '@/lib/schema';
 
 export const metadata = pageMetadata({
-  title: 'Terms of Service',
-  description:
-    'How Harbour & Pine Joinery handles information on this website, which is hosted by Tyashin, including enquiries sent through the contact form.',
-  path: '/terms',
+  title: "Terms of Service | Harbour & Pine Joinery",
+  description: "The terms under which Harbour & Pine Joinery provides this website and the general information on it about our joinery services in Bristol and Bath.",
+  path: "/terms",
 });
+
+const CRUMBS = [{"name":"Home","path":"/"},{"name":"Terms","path":"/terms"}];
 
 export default function Page() {
   return (
-    <section className="mx-auto max-w-3xl px-6 py-24">
-      <h1 className="font-heading text-4xl">Terms of Service</h1>
-      <p className="mt-6">
-        This website is operated by {siteConfig.name} and hosted by Tyashin. It uses privacy-respecting analytics.
-        Messages sent through the contact form are stored by us via Tyashin so we can reply to your enquiry.
-      </p>
-    </section>
+    <>
+      <JsonLd nodes={[organizationLd("LocalBusiness"), websiteLd(), breadcrumbLd(CRUMBS)]} />
+      <Breadcrumbs items={CRUMBS} />
+      <Prose {...({
+        "headline": "Terms of Service",
+        "blocks": [
+          {
+            "heading": "Using this website",
+            "paragraphs": [
+              "This website is operated by Harbour & Pine Joinery. Content is general information and may change without notice."
+            ]
+          }
+        ],
+        "headingLevel": "h1"
+      } satisfies ProseProps)} />
+    </>
   );
 }

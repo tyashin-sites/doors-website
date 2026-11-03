@@ -1,28 +1,71 @@
-import Link from 'next/link';
 import { pageMetadata } from '@/lib/seo';
-import { siteConfig } from '@/config/site';
+import { CtaBand, Features, Hero, JsonLd } from '@/components/kit';
+import type { CtaBandProps, FeaturesProps, HeroProps } from '@/components/kit';
+import { organizationLd, websiteLd } from '@/lib/schema';
 
 export const metadata = pageMetadata({
-  title: 'Fitted joinery for older homes',
-  description:
-    'Made-to-measure wardrobes, alcove shelving and kitchens in solid oak and tulipwood, built in our workshop and fitted in Bristol and Bath homes.',
-  path: '/',
+  title: "Fitted joinery in Bristol & Bath | Harbour & Pine",
+  description: "Made-to-measure wardrobes, alcove shelving and kitchens in solid oak and tulipwood, built in our workshop and fitted in Bristol and Bath homes.",
+  path: "/",
 });
 
-export default function Home() {
+export default function Page() {
   return (
-    <section className="mx-auto max-w-6xl px-6 py-24">
-      <p className="text-accent text-xs tracking-[0.3em] uppercase">{siteConfig.areas}</p>
-      <h1 className="font-heading hero-in mt-4 text-6xl">Joinery that fits the house you have</h1>
-      <p className="text-muted mt-6 max-w-xl text-lg">{siteConfig.description}</p>
-      <div className="mt-10 flex gap-4">
-        <a href={siteConfig.phoneHref} className="bg-primary text-primary-contrast rounded-md px-5 py-3">
-          Call the workshop
-        </a>
-        <Link href="/about" className="border-border rounded-md border px-5 py-3">
-          About the workshop
-        </Link>
-      </div>
-    </section>
+    <>
+      <JsonLd nodes={[organizationLd("LocalBusiness"), websiteLd()]} />
+      <Hero {...({
+        "variant": "editorial",
+        "eyebrow": "Bristol & Bath",
+        "headline": "Joinery that fits the house you have",
+        "sub": "Wardrobes, shelving and kitchens made to measure for awkward walls and older homes, built in our own workshop.",
+        "primaryCta": {
+          "label": "Call the workshop",
+          "href": "tel:+441174960123"
+        },
+        "secondaryCta": {
+          "label": "See our work",
+          "href": "/services"
+        },
+        "image": {
+          "alt": "Painted alcove shelving beside a period fireplace",
+          "brief": "A finished alcove unit in a period living room, soft daylight from the side, no people.",
+          "aspect": "portrait"
+        }
+      } satisfies HeroProps)} />
+      <Features {...({
+        "variant": "grid",
+        "eyebrow": "What we make",
+        "headline": "Three things, made properly",
+        "items": [
+          {
+            "title": "Fitted wardrobes",
+            "body": "Built to the wall you have, sloping ceilings and uneven floors included.",
+            "icon": "Home",
+            "href": "/services"
+          },
+          {
+            "title": "Alcove shelving",
+            "body": "Shelving and cupboards that frame a fireplace instead of fighting it.",
+            "icon": "Layers",
+            "href": "/services"
+          },
+          {
+            "title": "Kitchen cabinetry",
+            "body": "Solid oak or painted tulipwood cabinets, designed around how you cook.",
+            "icon": "Hammer",
+            "href": "/services"
+          }
+        ],
+        "columns": 3
+      } satisfies FeaturesProps)} />
+      <CtaBand {...({
+        "headline": "Tell us about the wall",
+        "body": "Send a photo and rough measurements and we will tell you what is possible.",
+        "primaryCta": {
+          "label": "Email the workshop",
+          "href": "mailto:hello@harbourandpine.example"
+        }
+      } satisfies CtaBandProps)} />
+    </>
   );
 }
